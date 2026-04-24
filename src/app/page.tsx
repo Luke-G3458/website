@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Footer } from "@/components/footer";
+import { OrbitingGlowButton } from "@/components/orbiting-glow-button";
 import { ProjectGallery } from "@/components/project-gallery";
 import { Reveal } from "@/components/reveal";
 import { SiteNav } from "@/components/site-nav";
@@ -30,7 +31,7 @@ export default function Home() {
     <>
       <SiteNav />
       <main className="flex-1">
-        <section className="site-shell grid min-h-screen items-start gap-14 px-6 pb-16 pt-28 md:grid-cols-[minmax(220px,320px)_1fr] md:gap-18 md:px-10 md:pt-32 lg:px-12 lg:pt-36">
+        <section className="site-shell grid min-h-screen items-start gap-14 px-6 pb-16 pt-28 md:grid-cols-[minmax(220px,320px)_1fr] md:gap-18 md:px-10 md:pt-24 lg:px-12 lg:pt-28">
           <div className="relative mx-auto aspect-square w-44 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(245,191,127,0.2),transparent_42%),linear-gradient(160deg,rgba(38,33,31,1),rgba(26,24,25,1))] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] md:mx-0 md:w-full max-w-[280px]">
             <div className="absolute inset-[10px] overflow-hidden rounded-full border border-white/8 bg-[linear-gradient(160deg,rgba(56,49,46,0.78),rgba(31,28,29,0.84))]">
               <Image
@@ -70,7 +71,7 @@ export default function Home() {
         </section>
 
         <Reveal>
-          <section className="site-shell px-6 py-10 md:px-10 lg:px-12">
+          <section className="site-shell px-6 py-8 md:px-10 lg:px-12">
             <div className="max-w-2xl pl-0 md:pl-6 lg:pl-10">
               <blockquote className="border-l border-[rgba(225,159,86,0.18)] pl-6 font-display text-2xl leading-9 text-[var(--text-soft)] sm:text-[2rem] sm:leading-10">
                 Placeholder philosophy text lives here. This section should read
@@ -81,7 +82,7 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section className="site-shell px-6 py-16 md:px-10 lg:px-12">
+          <section className="site-shell px-6 py-14 md:px-10 lg:px-12">
             <div className="mb-8 flex items-end justify-between gap-6">
               <div>
                 <p className="section-kicker">Featured Work</p>
@@ -108,7 +109,7 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section className="site-shell px-6 py-16 md:px-10 lg:px-12">
+          <section className="site-shell px-6 py-14 md:px-10 lg:px-12">
             <div className="mb-8">
               <p className="section-kicker">Domains</p>
               <h2 className="section-heading">
@@ -142,7 +143,7 @@ export default function Home() {
         </Reveal>
 
         <Reveal>
-          <section className="site-shell px-6 pb-24 pt-14 md:px-10 lg:px-12">
+          <section className="site-shell px-6 pb-22 pt-12 md:px-10 lg:px-12">
             <div className="rounded-[32px] bg-[linear-gradient(160deg,rgba(34,31,31,0.95),rgba(22,20,21,0.96))] px-7 py-10 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] sm:px-10 sm:py-12">
               <p className="section-kicker justify-center">Contact</p>
               <h2 className="mt-3 font-display text-3xl tracking-[-0.03em] text-[var(--text-strong)] sm:text-4xl">
@@ -152,8 +153,13 @@ export default function Home() {
                 Keep this final section warm and simple. It should feel like an
                 invitation, not a pitch.
               </p>
-              <Link href="/contact" className="primary-button mt-8 inline-flex">
-                Get in touch
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex text-[var(--accent-strong)]"
+              >
+                <OrbitingGlowButton contentClassName="px-6 py-3 text-base">
+                  Get in touch
+                </OrbitingGlowButton>
               </Link>
             </div>
           </section>
