@@ -1,26 +1,206 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --page-background: #121111;
+  --page-background-soft: #181515;
+  --surface: #1d1a1a;
+  --surface-elevated: #252121;
+  --surface-input: #201d1d;
+  --text-primary: #f3eee6;
+  --text-strong: #fffaf2;
+  --text-soft: #d8d0c4;
+  --text-muted: #94897d;
+  --accent: #d39a54;
+  --accent-strong: #ebb373;
+  --accent-soft: rgba(211, 154, 84, 0.16);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --color-background: var(--page-background);
+  --color-foreground: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #100f10;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
+  background-color: #100f10;
+  background:
+    radial-gradient(circle at top, rgba(121, 87, 48, 0.09), transparent 36rem),
+    radial-gradient(circle at 82% 18%, rgba(183, 123, 61, 0.05), transparent 18rem),
+    linear-gradient(180deg, #141212 0%, #121111 46%, #100f10 100%);
+  background-repeat: no-repeat;
+  padding-bottom: 6.5rem;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+::selection {
+  background: rgba(211, 154, 84, 0.28);
+  color: var(--text-strong);
+}
+
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer components {
+  .site-shell {
+    width: min(1180px, calc(100vw - 2rem));
+    margin-inline: auto;
+  }
+
+  .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .section-heading {
+    margin-top: 0.85rem;
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text-strong);
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 0.5rem 0.8rem;
+    font-size: 0.82rem;
+    line-height: 1;
+    color: var(--text-soft);
+  }
+
+  .primary-button {
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #e0a45d, #c4843d);
+    padding: 0.95rem 1.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1c1612;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 20px 36px rgba(0, 0, 0, 0.22);
+  }
+
+  .primary-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      0 22px 40px rgba(0, 0, 0, 0.28);
+  }
+
+  .secondary-button {
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.9rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-soft);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .secondary-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-strong);
+  }
+
+  .placeholder-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    background:
+      radial-gradient(circle at top left, rgba(211, 154, 84, 0.08), transparent 38%),
+      linear-gradient(160deg, rgba(54, 47, 45, 0.55), rgba(28, 26, 27, 0.85));
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .field-group {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .field-label {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+  }
+
+  .field-input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(35, 31, 31, 0.95), rgba(28, 25, 25, 0.98));
+    padding: 1rem 1.1rem;
+    color: var(--text-primary);
+    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .field-input:focus {
+    border-color: rgba(211, 154, 84, 0.34);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 4px rgba(211, 154, 84, 0.08);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 480ms ease,
+      transform 480ms ease;
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .site-shell {
+    width: min(1180px, calc(100vw - 1.5rem));
+  }
 }
