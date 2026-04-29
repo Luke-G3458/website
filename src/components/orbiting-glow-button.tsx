@@ -4,6 +4,7 @@ type OrbitingGlowButtonProps = {
   children: ReactNode;
   active?: boolean;
   sheenMode?: "off" | "hover" | "always";
+  mobileSheenAlways?: boolean;
   activeIndicator?: "none" | "inner-dash";
   className?: string;
   contentClassName?: string;
@@ -13,6 +14,7 @@ export function OrbitingGlowButton({
   children,
   active = false,
   sheenMode = "hover",
+  mobileSheenAlways = false,
   activeIndicator = "none",
   className = "",
   contentClassName = "px-4 py-2 text-sm",
@@ -34,7 +36,9 @@ export function OrbitingGlowButton({
           sheenMode === "always"
             ? "opacity-100"
             : sheenMode === "hover"
-              ? "opacity-0 group-hover:opacity-100"
+              ? mobileSheenAlways
+                ? "opacity-100 md:opacity-0 md:group-hover:opacity-100"
+                : "opacity-0 group-hover:opacity-100"
               : "opacity-0"
         }`}
       >

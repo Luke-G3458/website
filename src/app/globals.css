@@ -112,6 +112,30 @@ select {
   }
 }
 
+@keyframes dropdown-menu-in-from-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(-0.35rem) scaleY(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes dropdown-menu-in-from-top {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem) scaleY(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
 @layer components {
   .site-shell {
     width: min(1180px, calc(100vw - 2rem));

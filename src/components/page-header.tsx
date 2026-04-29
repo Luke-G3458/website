@@ -3,6 +3,7 @@ type PageHeaderProps = {
   title: string;
   description?: string;
   centered?: boolean;
+  spacingClassName?: string;
   titleClassName?: string;
 };
 
@@ -11,10 +12,11 @@ export function PageHeader({
   title,
   description,
   centered = false,
+  spacingClassName = "px-6 pb-12 pt-28 md:px-10 md:pb-14 md:pt-32 lg:px-12",
   titleClassName = "text-5xl sm:text-6xl",
 }: PageHeaderProps) {
   return (
-    <section className="site-shell px-6 pb-12 pt-28 md:px-10 md:pb-14 md:pt-32 lg:px-12">
+    <section className={`site-shell ${spacingClassName}`}>
       <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
         <p className={`section-kicker ${centered ? "justify-center" : ""}`}>{eyebrow}</p>
         <h1

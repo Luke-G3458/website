@@ -157,7 +157,10 @@ export default function Home() {
                 href="/contact"
                 className="mt-8 inline-flex text-[var(--accent-strong)]"
               >
-                <OrbitingGlowButton contentClassName="px-6 py-3 text-base">
+                <OrbitingGlowButton
+                  mobileSheenAlways
+                  contentClassName="px-6 py-3 text-base"
+                >
                   Get in touch
                 </OrbitingGlowButton>
               </Link>

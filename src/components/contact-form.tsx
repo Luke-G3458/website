@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { OrbitingGlowButton } from "@/components/orbiting-glow-button";
 
@@ -17,7 +18,7 @@ const fieldBarClass =
   "pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/8 transition-colors duration-200 group-hover:bg-[rgba(211,154,84,0.24)]";
 
 const activeFieldBarClass =
-  "pointer-events-none absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-focus-within:scale-x-100";
+  "pointer-events-none absolute inset-x-0 bottom-0 h-[1.5px] origin-left scale-x-0 bg-[var(--accent)] transition-transform duration-300 ease-out group-focus-within:scale-x-100";
 
 function InquiryTypeSelect({
   value,
@@ -27,79 +28,45 @@ function InquiryTypeSelect({
   onChange: (value: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const selectRef = useRef<HTMLDivElement>(null);
-  const listboxId = useId();
   const selectedLabel = inquiryTypes.find(
     (type) => type.toLowerCase() === value,
   );
 
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    function handlePointerDown(event: PointerEvent) {
-      if (!selectRef.current?.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setOpen(false);
-      }
-    }
-
-    window.addEventListener("pointerdown", handlePointerDown);
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [open]);
-
   return (
-    <div ref={selectRef} className="relative">
+    <DropdownMenu.Root open={open} onOpenChange={setOpen}>
       <input type="hidden" name="domain" value={value} />
-      <button
-        type="button"
-        className={`${fieldControlClass} flex items-center justify-between gap-4 text-left`}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-        aria-controls={listboxId}
-        onClick={() => setOpen((current) => !current)}
-      >
-        <span className={selectedLabel ? "" : "text-[rgba(148,137,125,0.66)]"}>
-          {selectedLabel ?? "Select a topic (optional)"}
-        </span>
-        <span
-          aria-hidden="true"
-          className={`mr-1 size-2 shrink-0 rotate-45 border-b border-r border-current text-[var(--accent)] transition-transform duration-200 ${
-            open ? "-translate-y-0.5 rotate-[225deg]" : ""
-          }`}
-        />
-      </button>
-
-      {open ? (
-        <div
-          id={listboxId}
-          role="listbox"
-          className="absolute left-0 right-0 top-[calc(100%+0.55rem)] z-20 overflow-hidden rounded-[24px] border border-white/7 bg-[rgba(22,21,21,0.98)] px-3 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]"
+      <DropdownMenu.Trigger asChild>
+        <button
+          type="button"
+          className={`${fieldControlClass} flex items-center justify-between gap-4 text-left`}
         >
-          <button
-            type="button"
-            role="option"
-            aria-selected={value === ""}
-            className={`group/option block w-full px-2 py-2.5 text-left text-[0.9rem] transition-colors ${
+          <span
+            className={selectedLabel ? "" : "text-[rgba(148,137,125,0.66)]"}
+          >
+            {selectedLabel ?? "Select a topic (optional)"}
+          </span>
+          <span
+            aria-hidden="true"
+            className={`mr-1 size-2 shrink-0 rotate-45 border-b border-r border-current text-[var(--accent)] transition-transform duration-200 ${
+              open ? "-translate-y-0.5 rotate-[225deg]" : ""
+            }`}
+          />
+        </button>
+      </DropdownMenu.Trigger>
+
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          align="start"
+          sideOffset={8}
+          className="z-50 min-w-[var(--radix-dropdown-menu-trigger-width)] origin-[var(--radix-dropdown-menu-content-transform-origin)] overflow-hidden rounded-[24px] border border-white/7 bg-[linear-gradient(180deg,rgba(31,28,28,0.99),rgba(20,19,19,0.99))] px-3 py-3 shadow-[0_24px_60px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.05)] data-[side=bottom]:animate-[dropdown-menu-in-from-bottom_180ms_cubic-bezier(0.22,1,0.36,1)] data-[side=top]:animate-[dropdown-menu-in-from-top_180ms_cubic-bezier(0.22,1,0.36,1)]"
+        >
+          <DropdownMenu.Item
+            className={`group/option cursor-pointer select-none px-2 py-2.5 text-left text-[0.9rem] outline-none transition-colors ${
               value === ""
                 ? "text-[var(--accent-strong)]"
-                : "text-[var(--text-muted)] hover:text-[var(--text-soft)]"
+                : "text-[var(--text-muted)] data-[highlighted]:text-[var(--text-soft)]"
             }`}
-            onClick={() => {
-              onChange("");
-              setOpen(false);
-            }}
+            onSelect={() => onChange("")}
           >
             <span className="relative inline-flex">
               Select a topic (optional)
@@ -108,30 +75,24 @@ function InquiryTypeSelect({
                 className={`absolute bottom-[-0.28rem] left-0 h-px w-full origin-left bg-[var(--accent)] transition-transform duration-300 ease-out ${
                   value === ""
                     ? "scale-x-100"
-                    : "scale-x-0 group-hover/option:scale-x-100"
+                    : "scale-x-0 group-data-[highlighted]/option:scale-x-100"
                 }`}
               />
             </span>
-          </button>
+          </DropdownMenu.Item>
           {inquiryTypes.map((type) => {
             const optionValue = type.toLowerCase();
             const selected = value === optionValue;
 
             return (
-              <button
+              <DropdownMenu.Item
                 key={type}
-                type="button"
-                role="option"
-                aria-selected={selected}
-                className={`group/option block w-full px-2 py-2.5 text-left text-[0.9rem] transition-colors ${
+                className={`group/option cursor-pointer select-none px-2 py-2.5 text-left text-[0.9rem] outline-none transition-colors ${
                   selected
                     ? "text-[var(--accent-strong)]"
-                    : "text-[var(--text-soft)] hover:text-[var(--text-strong)]"
+                    : "text-[var(--text-soft)] data-[highlighted]:text-[var(--text-strong)]"
                 }`}
-                onClick={() => {
-                  onChange(optionValue);
-                  setOpen(false);
-                }}
+                onSelect={() => onChange(optionValue)}
               >
                 <span className="relative inline-flex">
                   {type}
@@ -140,16 +101,16 @@ function InquiryTypeSelect({
                     className={`absolute bottom-[-0.28rem] left-0 h-px w-full origin-left bg-[var(--accent)] transition-transform duration-300 ease-out ${
                       selected
                         ? "scale-x-100"
-                        : "scale-x-0 group-hover/option:scale-x-100"
+                        : "scale-x-0 group-data-[highlighted]/option:scale-x-100"
                     }`}
                   />
                 </span>
-              </button>
+              </DropdownMenu.Item>
             );
           })}
-        </div>
-      ) : null}
-    </div>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 }
 
@@ -160,7 +121,10 @@ function SubmitButton({ pending }: { pending: boolean }) {
       className="inline-flex text-[var(--accent)] hover:text-[var(--accent-strong)] disabled:cursor-wait disabled:opacity-70 disabled:transform-none"
       disabled={pending}
     >
-      <OrbitingGlowButton contentClassName="flex min-w-[7.2rem] items-center justify-center px-5 py-2.5 text-[0.9rem] font-medium">
+      <OrbitingGlowButton
+        mobileSheenAlways
+        contentClassName="flex min-w-[7.2rem] items-center justify-center px-5 py-2.5 text-[0.9rem] font-medium"
+      >
         {pending ? (
           <span className="inline-flex items-baseline" aria-live="polite">
             <span>Sending</span>
